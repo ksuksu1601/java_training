@@ -19,12 +19,10 @@ public class GroupCreationTests {
     
     @BeforeMethod
     public void setUp() throws Exception {
+
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-    }
-    
-    @Test
-    public void GroupCreationTests() {
+
         wd.get("http://localhost/addressbook/");
         wd.findElement(By.id("LoginForm")).click();
         wd.findElement(By.name("user")).click();
@@ -34,6 +32,11 @@ public class GroupCreationTests {
         wd.findElement(By.name("pass")).clear();
         wd.findElement(By.name("pass")).sendKeys("secret");
         wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+    }
+    
+    @Test
+    public void testGroupCreation() {
+
         wd.findElement(By.linkText("groups")).click();
         wd.findElement(By.name("new")).click();
         wd.findElement(By.name("group_name")).click();
@@ -41,22 +44,13 @@ public class GroupCreationTests {
         wd.findElement(By.name("group_name")).sendKeys("Group1");
         wd.findElement(By.name("group_header")).click();
         wd.findElement(By.name("group_header")).clear();
-        wd.findElement(By.name("group_header")).sendKeys("First Group");
-        wd.findElement(By.name("group_footer")).click();
-        wd.findElement(By.name("group_footer")).clear();
-        wd.findElement(By.name("group_footer")).sendKeys("The first group");
+        wd.findElement(By.name("group_header")).sendKeys("The first Group");
         wd.findElement(By.name("group_footer")).click();
         wd.findElement(By.name("group_footer")).clear();
         wd.findElement(By.name("group_footer")).sendKeys("My first group");
-        wd.findElement(By.name("group_header")).click();
-        wd.findElement(By.name("group_header")).clear();
-        wd.findElement(By.name("group_header")).sendKeys("The First Group");
-        wd.findElement(By.name("group_header")).click();
-        wd.findElement(By.name("group_header")).clear();
-        wd.findElement(By.name("group_header")).sendKeys("The first Group");
-        wd.findElement(By.name("group_footer")).click();
         wd.findElement(By.name("submit")).click();
         wd.findElement(By.linkText("groups")).click();
+
     }
     
     @AfterMethod
