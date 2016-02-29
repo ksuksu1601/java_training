@@ -1,4 +1,4 @@
-package com.ksu.addressbook;
+package com.ksu.addressbook.model;
 
 public class GroupData {
     private final String name;

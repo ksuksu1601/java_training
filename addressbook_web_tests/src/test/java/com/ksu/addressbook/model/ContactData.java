@@ -1,4 +1,4 @@
-package com.ksu.addressbook;
+package com.ksu.addressbook.model;
 
 public class ContactData {
     private final String firstname;

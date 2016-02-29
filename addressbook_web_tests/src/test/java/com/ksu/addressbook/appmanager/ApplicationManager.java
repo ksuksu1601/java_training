@@ -1,21 +1,37 @@
-package com.ksu.addressbook;
+package com.ksu.addressbook.appmanager;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
-import java.util.concurrent.TimeUnit;
+import com.ksu.addressbook.model.ContactData;
+import com.ksu.addressbook.model.GroupData;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.*;
 
-public class ContactCreationTests {
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by Ksu on 29.02.2016.
+ */
+public class ApplicationManager {
     FirefoxDriver wd;
-    
-    @BeforeMethod
-    public void setUp() throws Exception {
+
+    public static boolean isAlertPresent(FirefoxDriver wd) {
+        try {
+            wd.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException e) {
+            return false;
+        }
+    }
+
+    public void init() {
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/edit.php");
         login("admin", "secret");
+    }
+
+    public void stop() {
+        wd.quit();
     }
 
     private void login(String username, String password) {
@@ -29,23 +45,15 @@ public class ContactCreationTests {
         wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
     }
 
-    @Test
-    public void testContactCreation() {
-        initContactCreation();
-        fillContactForm(new ContactData("Fekla", "Pupyrkina", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet"));
-        sumbitContactCreation();
-        goToHomePage();
-    }
-
-    private void goToHomePage() {
+    public void goToHomePage() {
         wd.findElement(By.linkText("home")).click();
     }
 
-    private void sumbitContactCreation() {
+    public void sumbitContactCreation() {
         wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     }
 
-    private void fillContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData) {
         wd.findElement(By.name("firstname")).click();
         wd.findElement(By.name("firstname")).clear();
         wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
@@ -75,22 +83,40 @@ public class ContactCreationTests {
         wd.findElement(By.name("email")).sendKeys(contactData.getEmail());
     }
 
-    private void initContactCreation() {
+    public void initContactCreation() {
         wd.findElement(By.name("theform")).click();
     }
 
-    @AfterMethod
-    public void tearDown() {
+    public void submitGroupCreation() {
+        wd.findElement(By.name("submit")).click();
+    }
 
-        wd.quit();
+    public void fillGroupForm(GroupData groupData) {
+        wd.findElement(By.name("group_name")).click();
+        wd.findElement(By.name("group_name")).clear();
+        wd.findElement(By.name("group_name")).sendKeys(groupData.getName());
+        wd.findElement(By.name("group_header")).click();
+        wd.findElement(By.name("group_header")).clear();
+        wd.findElement(By.name("group_header")).sendKeys(groupData.getHeader());
+        wd.findElement(By.name("group_footer")).click();
+        wd.findElement(By.name("group_footer")).clear();
+        wd.findElement(By.name("group_footer")).sendKeys(groupData.getFooter());
     }
-    
-    public static boolean isAlertPresent(FirefoxDriver wd) {
-        try {
-            wd.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
+
+    public void initGroupCreation() {
+        wd.findElement(By.name("new")).click();
     }
+
+    public void goToGroupPage() {
+        wd.findElement(By.linkText("groups")).click();
+    }
+
+    public void deleteSelectedGroups() {
+        wd.findElement(By.name("delete")).click();
+    }
+
+    public void selectGroup() {
+        wd.findElement(By.name("selected[]")).click();
+    }
+
 }
