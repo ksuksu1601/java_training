@@ -32,4 +32,10 @@ public class HelperBase {
             return false;
         }
     }
+
+    public void acceptAlert() {
+        if (isAlertPresent()){
+            wd.switchTo().alert().accept();
+        }
+    }
 }
