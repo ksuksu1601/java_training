@@ -2,6 +2,7 @@ package com.ksu.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -19,9 +20,11 @@ public class HelperBase {
     }
 
     protected void type(By locator, String text) {
-        wd.findElement(locator).click();
-        wd.findElement(locator).clear();
-        wd.findElement(locator).sendKeys(text);
+        if ((text != null) && ( ! text.equals(wd.findElement(locator).getAttribute("value")))){
+            wd.findElement(locator).click();
+            wd.findElement(locator).clear();
+            wd.findElement(locator).sendKeys(text);
+        }
     }
 
     public boolean isAlertPresent() {
@@ -36,6 +39,15 @@ public class HelperBase {
     public void acceptAlert() {
         if (isAlertPresent()){
             wd.switchTo().alert().accept();
+        }
+    }
+
+    protected boolean isElementPresent(By locator) {
+        try {
+            wd.findElement(locator);
+            return true;
+        } catch (NoSuchElementException e){
+            return false;
         }
     }
 }

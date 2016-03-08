@@ -13,7 +13,7 @@ public class GoupModificationTests extends TestBase{
         app.getNavigationHelper().goToGroupPage();
         app.getGroupHelper().selectGroup();
         app.getGroupHelper().initGroupModification();
-        app.getGroupHelper().fillGroupForm(new GroupData("NewName", "NewHader", "NewFooter"));
+        app.getGroupHelper().fillGroupForm(new GroupData(null, "NewHader2", "NewFooter"));
         app.getGroupHelper().submitGroupModification();
         app.getNavigationHelper().goToGroupPage();
     }
