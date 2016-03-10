@@ -59,7 +59,6 @@ public class GroupHelper extends HelperBase {
     }
 
     public boolean isThereASpecificGroup(String groupName){
-        boolean result = false;
-        return isElementPresent(By.xpath("//span[contains(text(), '" + groupName + "')]"));
+        return isElementPresent(By.xpath("//span[normalize-space(text())='" + groupName + "']"));
     }
 }
