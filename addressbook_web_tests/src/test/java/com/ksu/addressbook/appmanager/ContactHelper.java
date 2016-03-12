@@ -73,6 +73,10 @@ public class ContactHelper extends HelperBase{
         return isElementPresent(By.name("selected[]"));
     }
 
+    public int getContactCount() {
+        return wd.findElements(By.name("selected[]")).size();
+    }
+
 //    public boolean isAGroupInSelectList(String groupName){
 //        return isElementPresent(By.xpath("//select[@name='new_group']/option[normalize-space(text())='" + groupName + "']"));
 //    }

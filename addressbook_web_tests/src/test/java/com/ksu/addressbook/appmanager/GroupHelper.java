@@ -61,4 +61,8 @@ public class GroupHelper extends HelperBase {
     public boolean isThereASpecificGroup(String groupName){
         return isElementPresent(By.xpath("//span[normalize-space(text())='" + groupName + "']"));
     }
+
+    public int getGroupCount() {
+        return wd.findElements(By.name("selected[]")).size();
+    }
 }

@@ -2,6 +2,7 @@ package com.ksu.addressbook.tests;
 
 import com.ksu.addressbook.model.ContactData;
 import com.ksu.addressbook.model.GroupData;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -21,9 +22,12 @@ public class ContactDeletionTests extends TestBase{
             app.getNavigationHelper().goToHomePage();
             app.getContactHelper().createContact(new ContactData("Fekla", "Pupyrkina", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet", groupForContact));
         }
+        int before = app.getContactHelper().getContactCount();
         app.getContactHelper().selectContact();
         app.getContactHelper().initContactDeletion();
         app.getContactHelper().acceptAlert();
         app.getNavigationHelper().goToHomePage();
+        int after = app.getContactHelper().getContactCount();
+        Assert.assertEquals(after, before - 1);
     }
 }
