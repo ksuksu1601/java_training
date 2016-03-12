@@ -3,6 +3,10 @@ package com.ksu.addressbook.appmanager;
 import com.ksu.addressbook.model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ksu on 01.03.2016.
@@ -62,7 +66,14 @@ public class GroupHelper extends HelperBase {
         return isElementPresent(By.xpath("//span[normalize-space(text())='" + groupName + "']"));
     }
 
-    public int getGroupCount() {
-        return wd.findElements(By.name("selected[]")).size();
+    public List<GroupData> getGroupList() {
+        List<GroupData> groups = new ArrayList<GroupData>();
+        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+        for(WebElement el: elements){
+            String name = el.getText();
+            GroupData group = new GroupData(name, null, null);
+            groups.add(group);
+        }
+        return groups;
     }
 }

@@ -4,8 +4,12 @@ import com.ksu.addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ksu on 01.03.2016.
@@ -73,8 +77,18 @@ public class ContactHelper extends HelperBase{
         return isElementPresent(By.name("selected[]"));
     }
 
-    public int getContactCount() {
-        return wd.findElements(By.name("selected[]")).size();
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
+        for(WebElement el: elements){
+            String lastName = el.findElement(By.xpath("td[1]")).getText();
+            String firstName = el.findElement(By.xpath("td[2]")).getText();
+            String address = el.findElement(By.xpath("td[3]")).getText();
+            String email = el.findElement(By.xpath("td[4]")).getText();
+            ContactData contact = new ContactData(firstName, lastName, null, address, null, null, null, null, email, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 
 //    public boolean isAGroupInSelectList(String groupName){

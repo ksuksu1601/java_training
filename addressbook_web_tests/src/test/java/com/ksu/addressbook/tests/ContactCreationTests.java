@@ -5,6 +5,8 @@ import com.ksu.addressbook.model.GroupData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class ContactCreationTests extends TestBase{
 
     @Test
@@ -15,10 +17,10 @@ public class ContactCreationTests extends TestBase{
             app.getGroupHelper().createGroup(new GroupData(groupForContact, null, null));
         }
         app.getNavigationHelper().goToHomePage();
-        int before = app.getContactHelper().getContactCount();
+        List<ContactData> before = app.getContactHelper().getContactList();
         app.getContactHelper().createContact(new ContactData("Fekla", "Pupyrkina", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet", groupForContact));
-        int after = app.getContactHelper().getContactCount();
-        Assert.assertEquals(after, before + 1);
+        List<ContactData> after = app.getContactHelper().getContactList();
+        Assert.assertEquals(after.size(), before.size() + 1);
     }
 
 }
