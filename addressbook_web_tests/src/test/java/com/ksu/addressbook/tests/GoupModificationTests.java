@@ -2,10 +2,10 @@ package com.ksu.addressbook.tests;
 
 import com.ksu.addressbook.model.GroupData;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -13,21 +13,21 @@ import java.util.List;
  */
 public class GoupModificationTests extends TestBase{
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().groupPage();
+        if (!app.group().isThereAGroup()) {
+            app.group().create(new GroupData("GroupToModify", "The Group to be modified", "Hohoho"));
+        }
+    }
+
     @Test
     public void testGroupModification(){
-        app.getNavigationHelper().goToGroupPage();
-        if (! app.getGroupHelper().isThereAGroup()){
-            app.getGroupHelper().createGroup(new GroupData("GroupToModify", "The Group to be modified", "Hohoho"));
-        }
-        List<GroupData> before = app.getGroupHelper().getGroupList();
+        List<GroupData> before = app.group().list();
         int index = before.size() - 1;
-        app.getGroupHelper().selectGroup(index);
-        app.getGroupHelper().initGroupModification();
         GroupData group = new GroupData(before.get(index).getId(), "NewName", "NewHader2", "NewFooter");
-        app.getGroupHelper().fillGroupForm(group);
-        app.getGroupHelper().submitGroupModification();
-        app.getGroupHelper().returnToGroupPage();
-        List<GroupData> after = app.getGroupHelper().getGroupList();
+        app.group().modify(index, group);
+        List<GroupData> after = app.group().list();
         Assert.assertEquals(after.size(), before.size());
 
         before.remove(index);
@@ -37,4 +37,5 @@ public class GoupModificationTests extends TestBase{
         after.sort(byId);
         Assert.assertEquals(before, after);
     }
+
 }

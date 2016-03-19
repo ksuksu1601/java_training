@@ -12,14 +12,14 @@ public class NavigationHelper extends HelperBase{
         super(wd);
     }
 
-    public void goToHomePage() {
+    public void homePage() {
         if(isElementPresent(By.id("maintable"))){
             return;
         }
         click(By.linkText("home"));
     }
 
-    public void goToGroupPage() {
+    public void groupPage() {
         if (isElementPresent(By.tagName("h1"))
                 && wd.findElement(By.tagName("h1")).getText().equals("Groups")
                 && isElementPresent(By.name("new"))){

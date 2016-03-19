@@ -2,7 +2,6 @@ package com.ksu.addressbook.appmanager;
 
 import com.ksu.addressbook.model.ContactData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -20,7 +19,7 @@ public class ContactHelper extends HelperBase{
         super(wd);
     }
 
-    public void sumbitContactCreation() {
+    public void sumbitCreation() {
         click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
@@ -42,23 +41,23 @@ public class ContactHelper extends HelperBase{
         }
     }
 
-    public void initContactCreation() {
+    public void initCreation() {
         click(By.linkText("add new"));
     }
 
-    public void selectContact(int index) {
+    public void select(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
-    public void initContactModification(int index) {
+    public void initModification(int index) {
         wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr/td/a/img[@title='Edit']")).get(index).click();
     }
 
-    public void submitContactModification() {
+    public void submitModification() {
         click(By.name("update"));
     }
 
-    public void initContactDeletion() {
+    public void initDeletion() {
         click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     }
 
@@ -66,10 +65,17 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("home page"));
     }
 
-    public void createContact(ContactData contactData) {
-        initContactCreation();
+    public void create(ContactData contactData) {
+        initCreation();
         fillContactForm(contactData, true);
-        sumbitContactCreation();
+        sumbitCreation();
+        returnToHomePage();
+    }
+
+    public void modify(int index, ContactData contact) {
+        initModification(index);
+        fillContactForm(contact, false);
+        submitModification();
         returnToHomePage();
     }
 
@@ -77,7 +83,7 @@ public class ContactHelper extends HelperBase{
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
         for(WebElement el: elements){
