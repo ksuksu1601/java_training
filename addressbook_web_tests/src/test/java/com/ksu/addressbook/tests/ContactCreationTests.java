@@ -18,7 +18,7 @@ public class ContactCreationTests extends TestBase{
         groupForContact = "GroupForContact";
         app.goTo().groupPage();
         if(! app.group().isThereASpecificGroup(groupForContact)){
-            app.group().create(new GroupData(groupForContact, null, null));
+            app.group().create(new GroupData().withName(groupForContact));
         }
         app.goTo().homePage();
     }
@@ -26,7 +26,9 @@ public class ContactCreationTests extends TestBase{
     @Test(enabled = true)
     public void testContactCreation() {
         List<ContactData> before = app.contact().list();
-        ContactData contact = new ContactData("Fekla", "Pupyrkina", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet", groupForContact);
+        ContactData contact = new ContactData().withFirstname("Fekla").withLastname("Pupyrkina").withNickname("FeklaP").
+                withAddress("The Mars, 1st street").withFax("000").withMobilePhone("111").withHomePhone("222").
+                withWorkPhone("333").withEmail("fekla.pupyrkina@ino.planet").withGroup(groupForContact);
         app.contact().create(contact);
         List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size() + 1);

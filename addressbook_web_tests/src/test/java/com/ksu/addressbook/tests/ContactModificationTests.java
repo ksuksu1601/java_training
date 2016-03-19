@@ -21,10 +21,12 @@ public class ContactModificationTests extends TestBase{
             String groupForContact = "GroupForContact";
             app.goTo().groupPage();
             if(! app.group().isThereASpecificGroup(groupForContact)){
-                app.group().create(new GroupData(groupForContact, null, null));
+                app.group().create(new GroupData().withName(groupForContact));
             }
             app.goTo().homePage();
-            app.contact().create(new ContactData("Fekla", "Pupyrkina", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet", groupForContact));
+            app.contact().create(new ContactData().withFirstname("Fekla").withLastname("Pupyrkina").withNickname("FeklaP")
+                    .withAddress("The Mars, 1st street").withFax("000").withMobilePhone("111").withHomePhone("222")
+                    .withWorkPhone("333").withEmail("fekla.pupyrkina@ino.planet").withGroup(groupForContact));
         }
     }
 
@@ -32,7 +34,9 @@ public class ContactModificationTests extends TestBase{
     public void testContactModification(){
         List<ContactData> before = app.contact().list();
         int index = before.size() - 2;
-        ContactData contact = new ContactData(before.get(index).getId(), "Fekla", "Pupyrkina2", "FeklaP", "The Mars, 1st street", "000", "111", "222", "333", "fekla.pupyrkina@ino.planet", null);
+        ContactData contact = new ContactData().withId(before.get(index).getId()).withFirstname("Fekla")
+                .withLastname("Pupyrkina2").withLastname("FeklaP").withAddress("The Mars, 1st street").withFax("000")
+                .withMobilePhone("111").withHomePhone("222").withWorkPhone("333").withEmail("fekla.pupyrkina@ino.planet");
         app.contact().modify(index, contact);
         List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size());
