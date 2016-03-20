@@ -7,8 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ksu on 01.03.2016.
@@ -45,12 +46,12 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("add new"));
     }
 
-    public void select(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
+    public void selectById(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
-    public void initModification(int index) {
-        wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr/td/a/img[@title='Edit']")).get(index).click();
+    public void initModificationById(int id) {
+        wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
     }
 
     public void submitModification() {
@@ -65,26 +66,22 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("home page"));
     }
 
-    public void create(ContactData contactData) {
+    public void create(ContactData contact) {
         initCreation();
-        fillContactForm(contactData, true);
+        fillContactForm(contact, true);
         sumbitCreation();
         returnToHomePage();
     }
 
-    public void modify(int index, ContactData contact) {
-        initModification(index);
+    public void modify(ContactData contact) {
+        initModificationById(contact.getId());
         fillContactForm(contact, false);
         submitModification();
         returnToHomePage();
     }
 
-    public boolean isThereAContact() {
-        return isElementPresent(By.name("selected[]"));
-    }
-
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<ContactData>();
         List<WebElement> elements = wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
         for(WebElement el: elements){
             String lastName = el.findElement(By.xpath("td[2]")).getText();
@@ -98,9 +95,5 @@ public class ContactHelper extends HelperBase{
         }
         return contacts;
     }
-
-//    public boolean isAGroupInSelectList(String groupName){
-//        return isElementPresent(By.xpath("//select[@name='new_group']/option[normalize-space(text())='" + groupName + "']"));
-//    }
 
 }

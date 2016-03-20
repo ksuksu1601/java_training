@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,25 +63,11 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();;
     }
 
-    public void modify(int index, GroupData group) {
-        select(index);
-        initModification();
-        fillGroupForm(group);
-        submitModification();
-        returnToGroupPage();
-    }
-
     public void modify(GroupData group) {
         selectById(group.getId());
         initModification();
         fillGroupForm(group);
         submitModification();
-        returnToGroupPage();
-    }
-
-    public void delete(int index) {
-        select(index);
-        deleteSelected();
         returnToGroupPage();
     }
 
@@ -92,24 +77,8 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
-    public boolean isThereAGroup() {
-        return isElementPresent(By.name("selected[]"));
-    }
-
     public boolean isThereASpecificGroup(String groupName){
         return isElementPresent(By.xpath("//span[normalize-space(text())='" + groupName + "']"));
-    }
-
-    public List<GroupData> list() {
-        List<GroupData> groups = new ArrayList<GroupData>();
-        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
-        for(WebElement el: elements){
-            String name = el.getText();
-            int id = Integer.parseInt(el.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData().withId(id).withName(name);
-            groups.add(group);
-        }
-        return groups;
     }
 
     public Set<GroupData> all() {
