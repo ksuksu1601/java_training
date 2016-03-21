@@ -8,14 +8,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Created by Ksu on 01.03.2016.
  */
 public class ContactHelper extends HelperBase{
+
+    private Contacts contactsCache = null;
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -67,22 +68,40 @@ public class ContactHelper extends HelperBase{
         click(By.linkText("home page"));
     }
 
+    public void goToHomePage(){
+        click(By.linkText("home"));
+    }
+
     public void create(ContactData contact) {
         initCreation();
         fillContactForm(contact, true);
         sumbitCreation();
+        contactsCache = null;
         returnToHomePage();
+    }
+
+    public void delete(ContactData contact) {
+        selectById(contact.getId());
+        initDeletion();
+        acceptAlert();
+        contactsCache = null;
+        goToHomePage();
     }
 
     public void modify(ContactData contact) {
         initModificationById(contact.getId());
         fillContactForm(contact, false);
         submitModification();
+        contactsCache = null;
         returnToHomePage();
     }
 
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if(contactsCache != null){
+            return new Contacts(contactsCache);
+        }
+
+        contactsCache = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[@name='entry']"));
         for(WebElement el: elements){
             String lastName = el.findElement(By.xpath("td[2]")).getText();
@@ -92,9 +111,9 @@ public class ContactHelper extends HelperBase{
             int id = Integer.parseInt(el.findElement(By.tagName("input")).getAttribute("value"));
             ContactData contact = new ContactData().withId(id).withFirstname(firstName).withLastname(lastName)
                     .withAddress(address).withEmail(email);
-            contacts.add(contact);
+            contactsCache.add(contact);
         }
-        return contacts;
+        return new Contacts(contactsCache);
     }
 
 }
