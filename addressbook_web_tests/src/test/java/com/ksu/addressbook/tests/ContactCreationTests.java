@@ -31,8 +31,8 @@ public class ContactCreationTests extends TestBase{
                 withAddress("The Mars, 1st street").withFax("000").withMobilePhone("111").withHomePhone("222").
                 withWorkPhone("333").withEmail("fekla.pupyrkina@ino.planet").withGroup(groupForContact);
         app.contact().create(contact);
+        assertEquals(app.contact().getContactCount(), before.size() + 1);
         Contacts after = app.contact().all();
-        assertEquals(after.size(), before.size() + 1);
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(g -> g.getId()).max().getAsInt()))));
 
     }

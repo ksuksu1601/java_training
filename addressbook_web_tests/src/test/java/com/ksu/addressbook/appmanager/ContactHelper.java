@@ -96,6 +96,10 @@ public class ContactHelper extends HelperBase{
         returnToHomePage();
     }
 
+    public int getContactCount() {
+        return wd.findElements(By.name("selected[]")).size();
+    }
+
     public Contacts all() {
         if(contactsCache != null){
             return new Contacts(contactsCache);
