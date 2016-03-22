@@ -18,7 +18,7 @@ public class ContactModificationTests extends TestBase{
     @BeforeMethod
     public void ensurePreconditions(){
         app.goTo().homePage();
-        if (app.contact().all().size() == 0){
+        if (app.contact().getContactCount() == 0){
             String groupForContact = "GroupForContact";
             app.goTo().groupPage();
             if(! app.group().isThereASpecificGroup(groupForContact)){

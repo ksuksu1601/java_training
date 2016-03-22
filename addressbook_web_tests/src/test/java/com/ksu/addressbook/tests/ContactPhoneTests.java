@@ -1,22 +1,24 @@
 package com.ksu.addressbook.tests;
 
 import com.ksu.addressbook.model.ContactData;
-import com.ksu.addressbook.model.Contacts;
 import com.ksu.addressbook.model.GroupData;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.*;
 
 /**
- * Created by Ksu on 02.03.2016.
+ * Created by Ksu on 22.03.2016.
  */
-public class ContactDeletionTests extends TestBase{
+public class ContactPhoneTests extends TestBase{
 
     @BeforeMethod
-    public void ensurePreconditions() {
+    public void ensurePreconditions(){
         app.goTo().homePage();
         if (app.contact().getContactCount() == 0){
             String groupForContact = "GroupForContact";
@@ -32,13 +34,22 @@ public class ContactDeletionTests extends TestBase{
     }
 
     @Test
-    public void testContactDeletion(){
-        Contacts before = app.contact().all();
-        ContactData deletedContact = before.iterator().next();
-        app.contact().delete(deletedContact);
-        assertEquals(app.contact().getContactCount(), before.size() - 1);
-        Contacts after = app.contact().all();
-        assertThat(after, equalTo(before.without(deletedContact)));
+    public void testContactPhones(){
+        app.goTo().homePage();
+        ContactData contact = app.contact().all().iterator().next();
+        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+
+        assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
     }
 
+    private String mergePhones(ContactData contact) {
+        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
+                .stream().filter(s -> !s.equals(""))
+                .map(ContactPhoneTests::cleaned)
+                .collect(Collectors.joining("\n"));
+    }
+
+    public static String cleaned(String phone){
+        return phone.replaceAll("[-\\s()]","");
+    }
 }

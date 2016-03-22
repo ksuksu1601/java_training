@@ -17,7 +17,7 @@ public class GoupModificationTests extends TestBase{
     @BeforeMethod
     public void ensurePreconditions() {
         app.goTo().groupPage();
-        if (app.group().all().size() == 0) {
+        if (app.group().getGroupCount() == 0) {
             app.group().create(new GroupData().withName("GroupToModify").withHeader("The Group to be modified").withFooter("Hohoho"));
         }
     }
