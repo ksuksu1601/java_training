@@ -2,6 +2,7 @@ package com.ksu.addressbook.model;
 
 public class ContactData {
     private String firstname;
+    private String middlename;
     private String lastname;
     private String nickname;
     private String address;
@@ -19,6 +20,11 @@ public class ContactData {
 
     public String getFirstname() {
         return firstname;
+    }
+
+    public String getMiddlename() {
+
+        return middlename;
     }
 
     public String getLastname() {
@@ -79,6 +85,11 @@ public class ContactData {
 
     public ContactData withFirstname(String firstname) {
         this.firstname = firstname;
+        return this;
+    }
+
+    public ContactData withMiddlename(String middlename) {
+        this.middlename = middlename;
         return this;
     }
 

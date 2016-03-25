@@ -1,5 +1,6 @@
 package com.ksu.addressbook.appmanager;
 
+import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.ksu.addressbook.model.ContactData;
 import com.ksu.addressbook.model.Contacts;
 import org.openqa.selenium.By;
@@ -75,19 +76,23 @@ public class ContactHelper extends HelperBase{
     public ContactData infoFromEditForm(ContactData contact) {
         initModificationById(contact.getId());
         String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String middlename = wd.findElement(By.name("middlename")).getAttribute("value");
         String lasttname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String nickname = wd.findElement(By.name("nickname")).getAttribute("value");
         String home = wd.findElement(By.name("home")).getAttribute("value");
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
         String work = wd.findElement(By.name("work")).getAttribute("value");
+        String fax = wd.findElement(By.name("fax")).getAttribute("value");
         String address = wd.findElement(By.name("address")).getAttribute("value");
         String email = wd.findElement(By.name("email")).getAttribute("value");
         String email2 = wd.findElement(By.name("email2")).getAttribute("value");
         String email3 = wd.findElement(By.name("email3")).getAttribute("value");
 
         wd.navigate().back();
-        return new ContactData().withFirstname(firstname).withLastname(lasttname).withHomePhone(home)
-                .withMobilePhone(mobile).withWorkPhone(work).withAddress(address).withEmail(email)
-                .withEmail2(email2).withEmail3(email3);
+        return new ContactData().withFirstname(firstname).withMiddlename(middlename).withLastname(lasttname)
+                .withNickname(nickname).withAddress(address)
+                .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withFax(fax)
+                .withEmail(email).withEmail2(email2).withEmail3(email3);
     }
 
     public void create(ContactData contact) {
@@ -139,4 +144,14 @@ public class ContactHelper extends HelperBase{
         return new Contacts(contactsCache);
     }
 
+    public String detailedInfo(ContactData contact) {
+        openDetailsById(contact.getId());
+        String info = wd.findElement(By.cssSelector("div[id='content']")).getText();
+        wd.navigate().back();
+        return info;
+    }
+
+    private void openDetailsById(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']", id))).click();
+    }
 }
