@@ -12,7 +12,7 @@ import static org.testng.Assert.*;
 /**
  * Created by Ksu on 02.03.2016.
  */
-public class GoupModificationTests extends TestBase{
+public class GroupModificationTests extends TestBase{
 
     @BeforeMethod
     public void ensurePreconditions() {

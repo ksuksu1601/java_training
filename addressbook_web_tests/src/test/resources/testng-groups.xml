@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="AddressBook" verbose="1" >
+    <test name="Groups" >
+        <classes>
+            <class name="com.ksu.addressbook.tests.GroupCreationTests" />
+            <class name="com.ksu.addressbook.tests.GroupDeletionTests" />
+            <class name="com.ksu.addressbook.tests.GroupModificationTests" />
+        </classes>
+    </test>
+</suite>
