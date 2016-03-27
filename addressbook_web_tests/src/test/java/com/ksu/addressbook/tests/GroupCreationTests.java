@@ -1,5 +1,7 @@
 package com.ksu.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ksu.addressbook.model.GroupData;
 import com.ksu.addressbook.model.Groups;
 import com.thoughtworks.xstream.XStream;
@@ -20,7 +22,7 @@ import static org.testng.Assert.*;
 public class GroupCreationTests extends TestBase{
 
     @DataProvider
-    Iterator<Object[]> validGroups() throws IOException {
+    Iterator<Object[]> validGroupsFromXml() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groupData.xml")));
         String xml = "";
         String line = reader.readLine();
@@ -34,7 +36,21 @@ public class GroupCreationTests extends TestBase{
         return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
 
-    @Test(dataProvider = "validGroups")
+    @DataProvider
+    Iterator<Object[]> validGroupsFromJson() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groupData.json")));
+        String json = "";
+        String line = reader.readLine();
+        while(line != null){
+            json += line;
+            line = reader.readLine();
+        }
+        Gson gson = new Gson();
+        List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
+        return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+    }
+
+    @Test(dataProvider = "validGroupsFromJson")
     public void testGroupCreation(GroupData group) {
         app.goTo().groupPage();
         Groups before = app.group().all();

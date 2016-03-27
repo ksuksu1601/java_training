@@ -1,21 +1,42 @@
 package com.ksu.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+@XStreamAlias("contact")
 public class ContactData {
+    @Expose
     private String firstname;
+    @Expose
     private String middlename;
+    @Expose
     private String lastname;
+    @Expose
     private String nickname;
+    @Expose
     private String address;
+    @Expose
     private String homePhone;
+    @Expose
     private String mobilePhone;
+    @Expose
     private String workPhone;
+    @Expose
     private String fax;
+    @Expose
     private String email;
+    @XStreamOmitField
     private String email2;
+    @XStreamOmitField
     private String email3;
+    @Expose
     private String group;
+    @XStreamOmitField
     private int id = Integer.MAX_VALUE;
+    @XStreamOmitField
     private String allPhones;
+    @XStreamOmitField
     private String allEmails;
 
     public String getFirstname() {
