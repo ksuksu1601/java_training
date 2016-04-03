@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ksu.addressbook.model.ContactData;
 import com.ksu.addressbook.model.Contacts;
 import com.ksu.addressbook.model.GroupData;
+import com.ksu.addressbook.model.Groups;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -43,20 +44,20 @@ public class ContactCreationTests extends TestBase{
 
     @BeforeMethod
     public void ensurePreconditions(){
-        groupForContact = "GroupForContact";
-        app.goTo().groupPage();
-        if(! app.group().isThereASpecificGroup(groupForContact)){
-            app.group().create(new GroupData().withName(groupForContact));
+        GroupData groupForContact = new GroupData().withName("GroupForContact").withHeader("").withFooter("");
+        if(! app.db().groups().stream().map(g -> g.withId(Integer.MAX_VALUE)).collect(Collectors.toList()).contains(groupForContact)){
+            app.goTo().groupPage();
+            app.group().create(groupForContact);
         }
-        app.goTo().homePage();
     }
 
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreation(ContactData contact) {
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
+        app.goTo().homePage();
         app.contact().create(contact);
         assertEquals(app.contact().getContactCount(), before.size() + 1);
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(c -> c.getId()).max().getAsInt()))));
 
     }

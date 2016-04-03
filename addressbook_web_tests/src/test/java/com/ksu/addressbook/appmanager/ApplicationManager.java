@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     private final Properties properties;
     WebDriver wd;
+    private DbHelper dbHelper;
     private ContactHelper contactHelper;
     private GroupHelper groupHelper;
     private NavigationHelper navigationHelper;
@@ -31,6 +32,8 @@ public class ApplicationManager {
     }
 
     public void init() throws IOException {
+
+        dbHelper = new DbHelper();
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
@@ -53,6 +56,10 @@ public class ApplicationManager {
 
     public void stop() {
         wd.quit();
+    }
+
+    public DbHelper db() {
+        return dbHelper;
     }
 
     public GroupHelper group() {
