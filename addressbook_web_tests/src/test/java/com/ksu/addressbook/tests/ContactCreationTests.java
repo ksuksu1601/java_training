@@ -44,8 +44,8 @@ public class ContactCreationTests extends TestBase{
 
     @BeforeMethod
     public void ensurePreconditions(){
-        GroupData groupForContact = new GroupData().withName("GroupForContact").withHeader("").withFooter("");
-        if(! app.db().groups().stream().map(g -> g.withId(Integer.MAX_VALUE)).collect(Collectors.toList()).contains(groupForContact)){
+        if(app.db().groups().size() == 0){
+            GroupData groupForContact = new GroupData().withName("GroupForContact").withHeader("").withFooter("");
             app.goTo().groupPage();
             app.group().create(groupForContact);
         }
@@ -53,9 +53,10 @@ public class ContactCreationTests extends TestBase{
 
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreation(ContactData contact) {
+        Groups groups = app.db().groups();
         Contacts before = app.db().contacts();
         app.goTo().homePage();
-        app.contact().create(contact);
+        app.contact().create(contact.inGroup(groups.iterator().next()));
         assertEquals(app.contact().getContactCount(), before.size() + 1);
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt(c -> c.getId()).max().getAsInt()))));

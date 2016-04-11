@@ -1,0 +1,41 @@
+[
+  {
+    "firstname": "Fekla0",
+    "middlename": "Ivanovna0",
+    "lastname": "Pupyrkina0",
+    "nickname": "FeklaP0",
+    "address": "The Mars, 1st street, apt. 0",
+    "homePhone": "111-0",
+    "mobilePhone": "+7(222)222-0",
+    "workPhone": "333-0",
+    "fax": "000-0",
+    "email": "Fekla0@mars.org",
+    "group": "GroupForContact"
+  },
+  {
+    "firstname": "Fekla1",
+    "middlename": "Ivanovna1",
+    "lastname": "Pupyrkina1",
+    "nickname": "FeklaP1",
+    "address": "The Mars, 1st street, apt. 1",
+    "homePhone": "111-1",
+    "mobilePhone": "+7(222)222-1",
+    "workPhone": "333-1",
+    "fax": "000-1",
+    "email": "Fekla1@mars.org",
+    "group": "GroupForContact"
+  },
+  {
+    "firstname": "Fekla2",
+    "middlename": "Ivanovna2",
+    "lastname": "Pupyrkina2",
+    "nickname": "FeklaP2",
+    "address": "The Mars, 1st street, apt. 2",
+    "homePhone": "111-2",
+    "mobilePhone": "+7(222)222-2",
+    "workPhone": "333-2",
+    "fax": "000-2",
+    "email": "Fekla2@mars.org",
+    "group": "GroupForContact"
+  }
+]

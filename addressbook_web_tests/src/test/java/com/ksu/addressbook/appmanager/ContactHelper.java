@@ -1,8 +1,8 @@
 package com.ksu.addressbook.appmanager;
 
-import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.ksu.addressbook.model.ContactData;
 import com.ksu.addressbook.model.Contacts;
+import com.ksu.addressbook.model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,7 +40,10 @@ public class ContactHelper extends HelperBase{
         type(By.name("email"), contactData.getEmail());
 
         if (creation){
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if(contactData.getGroups().size() > 0){
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -68,6 +71,10 @@ public class ContactHelper extends HelperBase{
 
     public void returnToHomePage() {
         click(By.linkText("home page"));
+    }
+
+    public void returnToContactsOfGroupPage(GroupData group) {
+        click(By.linkText(String.format("group page \"%s\"", group.getName())));
     }
 
     public void goToHomePage(){
@@ -120,6 +127,44 @@ public class ContactHelper extends HelperBase{
         returnToHomePage();
     }
 
+    public void addToGroup(ContactData contact, GroupData group) {
+        selectById(contact.getId());
+        selectDestinationGroup(group);
+        submitAddingToGroup();
+        contactsCache = null;
+        returnToContactsOfGroupPage(group);
+        ShowContactsOfAllGroups();
+    }
+
+    public void selectDestinationGroup(GroupData group) {
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+    }
+
+    public void submitAddingToGroup() {
+        click(By.name("add"));
+    }
+
+    public void deleteFromGroup(ContactData contact, GroupData group) {
+        showContactsOfTheGroup(group);
+        selectById(contact.getId());
+        submitDeletionFromGroup();
+        contactsCache = null;
+        returnToContactsOfGroupPage(group);
+        ShowContactsOfAllGroups();
+    }
+
+    public void ShowContactsOfAllGroups() {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+    }
+
+    public void showContactsOfTheGroup(GroupData group) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+    }
+
+    public void submitDeletionFromGroup() {
+        click(By.name("remove"));
+    }
+
     public int getContactCount() {
         return wd.findElements(By.name("selected[]")).size();
     }
@@ -155,4 +200,5 @@ public class ContactHelper extends HelperBase{
     private void openDetailsById(int id) {
         wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']", id))).click();
     }
+
 }

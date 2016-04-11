@@ -3,12 +3,13 @@ package com.ksu.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.FilterJoinTable;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.WhereJoinTable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("group")
 @Entity
@@ -34,6 +35,10 @@ public class GroupData {
     @Expose
     private String footer;
 
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
+    @WhereJoinTable(clause = "deprecated = '0000-00-00 00:00:00'")
+    private Set<ContactData> contacts = new HashSet<ContactData>();
+
     public String getName() {
         return name;
     }
@@ -48,6 +53,10 @@ public class GroupData {
 
     public int getId() {
         return id;
+    }
+
+    public Contacts getContacts() {
+        return new Contacts(contacts);
     }
 
     public GroupData withFooter(String footer) {
@@ -67,6 +76,11 @@ public class GroupData {
 
     public GroupData withId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public GroupData withContact(ContactData contact) {
+        contacts.add(contact);
         return this;
     }
 

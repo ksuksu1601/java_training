@@ -4,8 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.WhereJoinTable;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -65,10 +68,6 @@ public class ContactData {
     @XStreamOmitField
     private String email3;
 
-    @Transient
-    @Expose
-    private String group;
-
     @Id
     @Column(name = "id")
     @XStreamOmitField
@@ -81,6 +80,11 @@ public class ContactData {
     @Transient
     @XStreamOmitField
     private String allEmails;
+
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    @WhereJoinTable(clause = "deprecated = '0000-00-00'")
+    private Set<GroupData> groups = new HashSet<GroupData>();
 
     public String getFirstname() {
         return firstname;
@@ -131,12 +135,12 @@ public class ContactData {
         return email3;
     }
 
-    public String getGroup() {
-        return group;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     public String getAllPhones() {
@@ -202,6 +206,31 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withEmail3(String email) {
+        this.email3 = email;
+        return this;
+    }
+
+    public ContactData withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public ContactData withAllPhones(String phones) {
+        this.allPhones = phones;
+        return this;
+    }
+
+    public ContactData withAllEmails(String emails) {
+        this.allEmails = emails;
+        return this;
+    }
+
+    public ContactData inGroup(GroupData group){
+        groups.add(group);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ContactData{" +
@@ -254,31 +283,6 @@ public class ContactData {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + id;
         return result;
-    }
-
-    public ContactData withEmail3(String email) {
-        this.email3 = email;
-        return this;
-    }
-
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
-
-    public ContactData withId(int id) {
-        this.id = id;
-        return this;
-    }
-
-    public ContactData withAllPhones(String phones) {
-        this.allPhones = phones;
-        return this;
-    }
-
-    public ContactData withAllEmails(String emails) {
-        this.allEmails = emails;
-        return this;
     }
 
 }

@@ -1,0 +1,17 @@
+<list>
+  <group>
+    <name>testGroup0</name>
+    <header>Header0</header>
+    <footer>Footer0</footer>
+  </group>
+  <group>
+    <name>testGroup1</name>
+    <header>Header1</header>
+    <footer>Footer1</footer>
+  </group>
+  <group>
+    <name>testGroup2</name>
+    <header>Header2</header>
+    <footer>Footer2</footer>
+  </group>
+</list>

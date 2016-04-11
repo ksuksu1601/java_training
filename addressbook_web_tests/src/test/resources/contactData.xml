@@ -1,0 +1,41 @@
+<list>
+  <contact>
+    <firstname>Fekla0</firstname>
+    <middlename>Ivanovna0</middlename>
+    <lastname>Pupyrkina0</lastname>
+    <nickname>FeklaP0</nickname>
+    <address>The Mars, 1st street, apt. 0</address>
+    <homePhone>111-0</homePhone>
+    <mobilePhone>+7(222)222-0</mobilePhone>
+    <workPhone>333-0</workPhone>
+    <fax>000-0</fax>
+    <email>Fekla0@mars.org</email>
+    <group>GroupForContact</group>
+  </contact>
+  <contact>
+    <firstname>Fekla1</firstname>
+    <middlename>Ivanovna1</middlename>
+    <lastname>Pupyrkina1</lastname>
+    <nickname>FeklaP1</nickname>
+    <address>The Mars, 1st street, apt. 1</address>
+    <homePhone>111-1</homePhone>
+    <mobilePhone>+7(222)222-1</mobilePhone>
+    <workPhone>333-1</workPhone>
+    <fax>000-1</fax>
+    <email>Fekla1@mars.org</email>
+    <group>GroupForContact</group>
+  </contact>
+  <contact>
+    <firstname>Fekla2</firstname>
+    <middlename>Ivanovna2</middlename>
+    <lastname>Pupyrkina2</lastname>
+    <nickname>FeklaP2</nickname>
+    <address>The Mars, 1st street, apt. 2</address>
+    <homePhone>111-2</homePhone>
+    <mobilePhone>+7(222)222-2</mobilePhone>
+    <workPhone>333-2</workPhone>
+    <fax>000-2</fax>
+    <email>Fekla2@mars.org</email>
+    <group>GroupForContact</group>
+  </contact>
+</list>
