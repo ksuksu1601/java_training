@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 
 import javax.mail.MessagingException;
+import javax.xml.rpc.ServiceException;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class ResetPasswordTests extends TestBase{
     }
 
     @Test
-    public void testResetPassword() throws IOException, MessagingException {
+    public void testResetPassword() throws IOException, MessagingException, ServiceException {
+        skipIfNotFixed(1);
         UserData user = app.db().users().iterator().next();
         String newPassword = "newpassword";
         app.account().login(app.getProperty("web.adminLogin"), app.getProperty("web.adminPswd"));
