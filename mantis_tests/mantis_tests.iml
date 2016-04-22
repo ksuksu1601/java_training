@@ -87,5 +87,6 @@
     <orderEntry type="library" name="Gradle: commons-discovery:commons-discovery:0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.axis:axis-jaxrpc:1.4" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.axis:axis-saaj:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:fluent-hc:4.5.1" level="project" />
   </component>
 </module>

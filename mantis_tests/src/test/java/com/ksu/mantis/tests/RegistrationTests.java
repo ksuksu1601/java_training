@@ -24,6 +24,7 @@ public class RegistrationTests extends TestBase {
 
     @Test
     public void testRegistration() throws IOException, MessagingException {
+        skipIfNotFixedInBugify(2);
         Long now = System.currentTimeMillis();
         String email = String.format("user%s@localhost.localdomain", now);
         String username = String.format("user%s", now);

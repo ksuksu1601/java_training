@@ -37,8 +37,20 @@ public class TestBase {
         return false;
     }
 
+    public boolean isIssueOpenInBugify(int issueId) throws IOException {
+        if (!app.rest().getIssue(issueId).getState().equals("Closed"))
+            return true;
+        return false;
+    }
+
     public void skipIfNotFixed(int issueId) throws RemoteException, ServiceException, MalformedURLException {
         if (isIssueOpen(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+        }
+    }
+
+    public void skipIfNotFixedInBugify(int issueId) throws IOException {
+        if (isIssueOpenInBugify(issueId)) {
             throw new SkipException("Ignored because of issue " + issueId);
         }
     }
