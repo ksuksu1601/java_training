@@ -13,7 +13,7 @@ public class PointTests {
         Point p = new Point(1, 1);
         Point p2 = new Point(1, 7);
         //assert p.distance(p2) == 6; - another way
-        Assert.assertEquals(p.distance(p2), 5.0);
+        Assert.assertEquals(p.distance(p2), 6.0);
 
     }
 
