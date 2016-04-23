@@ -27,7 +27,7 @@ task testGroups(type: Test){
         systemProperty 'target', "${target}"
     }
     if(project.hasProperty('platform')) {
-        systemProperty 'platform', "${verifyUI}"
+        systemProperty 'platform', "${platform}"
     }
     if(project.hasProperty('verifyUI')) {
         systemProperty 'verifyUI', "${verifyUI}"
