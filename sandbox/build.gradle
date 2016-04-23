@@ -10,3 +10,9 @@ dependencies{
 }
 
 mainClassName = "com.ksu.sandbox.MyFirstProgram"
+
+test {
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+}

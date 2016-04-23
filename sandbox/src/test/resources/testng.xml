@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Sanbox" verbose="1" >
+    <test name="All" >
+        <classes>
+            <class name="com.ksu.sandbox.EquationTests" />
+            <class name="com.ksu.sandbox.PointTests" />
+        </classes>
+    </test>
+</suite>
